@@ -1,0 +1,19 @@
+{
+  "name": "zz-core",
+  "version": "0.0.1",
+  "description": "",
+  "main": "lib/index.js",
+  "dependencies": {
+    "lodash.isequal": "^4.5.0",
+    "lodash.pick": "^4.4.0"
+  },
+  "devDependencies": {
+    "react-test-renderer": "^16.4.2"
+  },
+  "scripts": {
+    "build": "gnoll lib --source-maps",
+    "test": "../../node_modules/.bin/karma start"
+  },
+  "author": "sunflowerdeath",
+  "license": "Unlicense"
+}

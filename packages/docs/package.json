@@ -1,0 +1,23 @@
+{
+  "name": "z-docs",
+  "version": "0.0.1",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "build": "gnoll build --assets-caching --no-html",
+    "start": "gnoll start --no-html"
+  },
+  "author": "sunflowerdeath",
+  "license": "Unlicense",
+  "dependencies": {
+    "@babel/polyfill": "^7.0.0",
+    "@babel/runtime": "^7.0.0",
+    "minibook": "^0.5.3",
+    "react-draggable": "^3.0.5",
+    "zz-core": "0.0.1"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.0.0",
+    "minimark-loader": "^0.5.2"
+  }
+}
