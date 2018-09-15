@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom'
 import React, { Component, Fragment } from 'react'
 import Draggable from 'react-draggable'
 
-import Attachment from 'zz-core/lib/Attachment/AttachmentComponent'
+import { Attachment } from '@clear-ui/core'
 
 const styles = {
 	root: {
@@ -244,12 +244,8 @@ class Demo extends Component {
 		)
 	}
 
-	renderElement({ elementRef }) {
-		return (
-			<div style={styles.element} ref={elementRef}>
-				ELEMENT
-			</div>
-		)
+	renderElement(ref) {
+		return <div style={styles.element} ref={ref}>ELEMENT</div>
 	}
 
 	render() {

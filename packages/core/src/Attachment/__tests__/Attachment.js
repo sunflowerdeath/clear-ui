@@ -77,7 +77,7 @@ describe('attachment', () => {
 		})
 
 		const elemPos = getElemPosition(ELEMENT)
-		const targetPos = getElemPosition(TARGET) 
+		const targetPos = getElemPosition(TARGET)
 		assert.equal(elemPos.top, targetPos.top + TARGET.offsetHeight)
 		assert.equal(ELEMENT.offsetLeft, 0)
 	})
@@ -90,7 +90,7 @@ describe('attachment', () => {
 			mirrorAttachment: 'vert'
 		})
 
-		const targetPos = getElemPosition(TARGET) 
+		const targetPos = getElemPosition(TARGET)
 		const elemPos = getElemPosition(ELEMENT)
 		assert.equal(elemPos.top, targetPos.top + TARGET.offsetHeight)
 	})

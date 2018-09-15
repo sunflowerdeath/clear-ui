@@ -1,0 +1,30 @@
+{
+  "name": "@clear-ui/tooltip",
+  "version": "0.0.1",
+  "description": "React tooltip component",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@clear-ui/core": "0.0.1",
+    "floral": "^0.2.2",
+    "prop-types": "^15.6.2",
+    "react-spring": "^5.7.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sunflowerdeath/clear-ui.git"
+  },
+  "keywords": [
+    "react",
+    "component",
+    "tooltip"
+  ],
+  "author": "sunflowerdeath",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/sunflowerdeath/clear-ui/issues"
+  },
+  "homepage": "https://github.com/sunflowerdeath/clear-ui#readme"
+}

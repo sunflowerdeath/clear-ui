@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
-import pick from 'lodash/pick'
+import pick from 'lodash.pick'
 
 import cloneElementWithRef from '../utils/cloneElementWithRef'
 
@@ -120,7 +120,7 @@ class Attachment extends Component {
 			}
 			result =
 				typeof element === 'function'
-					? element({ elementRef })
+					? element(elementRef)
 					: cloneElementWithRef(element, { ref: elementRef })
 		}
 

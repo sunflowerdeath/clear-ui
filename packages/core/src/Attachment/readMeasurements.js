@@ -7,8 +7,9 @@ const readElemMeasurements = (elem, viewport) => {
 			left: rect.left + viewport.scrollLeft,
 			top: rect.top + viewport.scrollTop
 		},
-		width: rect.width,
-		height: rect.height
+		// offset measures before scale
+		width: elem.offsetWidth,
+		height: elem.offsetHeight
 	}
 }
 

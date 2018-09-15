@@ -3,7 +3,7 @@ import React from 'react'
 import LayersStory from './layers.md'
 import AttachmentStory from './attachment.md'
 
-const apiSection = {
+const coreSection = {
 	name: 'Core',
 	stories: {
 		layers: {
@@ -17,8 +17,8 @@ const apiSection = {
 		overlay: {
 			name: 'Overlay',
 			render: () => <div>TODO</div>
-		}
+		},
 	}
 }
 
-export default apiSection
+export default coreSection

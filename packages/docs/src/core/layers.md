@@ -5,13 +5,13 @@
 ## Stack Props
 
 ```@propsdoc
-file: '../../../zz-core/src/Layers/Stack.js'
+file: '../../../core/src/Layers/Stack.js'
 allowMarkdown: true
 ```
 
 ## Layer Props
 
 ```propsdoc
-file: '../../../zz-core/src/Layers/Layer.js'
+file: '../../../core/src/Layers/Layer.js'
 allowMarkdown: true
 ```

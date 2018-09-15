@@ -45,6 +45,7 @@ class Layer extends PureComponent {
 
 	createLayer() {
 		const { parentId, ...layerProps } = this.props
+		this.layerId = 'temp'
 		Stack.createLayer(parentId, layerProps, id => {
 			this.layerId = id
 		})

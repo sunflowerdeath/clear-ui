@@ -2,14 +2,17 @@ import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import floral from 'floral'
 
-const styles = { position: 'fixed', background: 'rgba(0,0,0,0.3)' }
+const styles = {
+	root: {
+		position: 'fixed',
+		width: '100%',
+		height: '100%'
+	}
+}
 
 const Overlay = floral(styles)(
-	({ children, closeOnEsc, closeOnClick, computedStyles }) => (
-		<Fragment>
-			<div style={computedStyles.root} />
-			{props.children}
-		</Fragment>
+	({ children, closeOnEsc, closeOnClick, onClose, computedStyles }) => (
+		<div style={computedStyles.root} onClick={closeOnClick && onClose} />
 	)
 )
 

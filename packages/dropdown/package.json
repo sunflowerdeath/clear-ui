@@ -1,0 +1,31 @@
+{
+  "name": "@clear-ui/dropdown",
+  "version": "0.0.1",
+  "description": "React dropdown component",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "gnoll lib --source-maps",
+    "watch": "gnoll lib --watch --source-maps"
+  },
+  "dependencies": {
+    "@clear-ui/core": "0.0.1",
+    "floral": "^0.2.2",
+    "prop-types": "^15.6.2",
+    "react-spring": "^5.7.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sunflowerdeath/clear-ui.git"
+  },
+  "keywords": [
+    "react",
+    "component",
+    "dropdown"
+  ],
+  "author": "sunflowerdeath",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/sunflowerdeath/clear-ui/issues"
+  },
+  "homepage": "https://github.com/sunflowerdeath/clear-ui#readme"
+}

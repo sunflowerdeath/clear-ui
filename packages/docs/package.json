@@ -1,5 +1,5 @@
 {
-  "name": "z-docs",
+  "name": "@clear-ui/docs",
   "version": "0.0.1",
   "description": "",
   "private": true,
@@ -10,14 +10,15 @@
   "author": "sunflowerdeath",
   "license": "Unlicense",
   "dependencies": {
-    "@babel/polyfill": "^7.0.0",
-    "@babel/runtime": "^7.0.0",
+    "@clear-ui/core": "0.0.1",
+    "@clear-ui/dropdown": "0.0.1",
+    "floral": "^0.2.2",
     "minibook": "^0.5.3",
+    "prop-types": "^15.6.2",
     "react-draggable": "^3.0.5",
-    "zz-core": "0.0.1"
+    "react-spring": "^5.7.2"
   },
   "devDependencies": {
-    "@babel/plugin-transform-runtime": "^7.0.0",
     "minimark-loader": "^0.5.2"
   }
 }

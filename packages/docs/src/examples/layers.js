@@ -1,7 +1,7 @@
 import React, { Component, PureComponent } from 'react'
 import ReactDOM from 'react-dom'
 
-import { Stack, Layer } from 'zz-core/lib/Layers'
+import { Stack, Layer } from '@clear-ui/core'
 
 const style = {
 	background: '#ddd',
@@ -13,7 +13,7 @@ const style = {
 	height: 75
 }
 
-class Example extends Component {
+class LayersExample extends Component {
 	state = {
 		tooltip1: false,
 		tooltip2: false,
@@ -70,7 +70,7 @@ class Example extends Component {
 
 ReactDOM.render(
 	<Stack>
-		<Example />
+		<LayersExample />
 	</Stack>,
 	document.querySelector('#root')
 )

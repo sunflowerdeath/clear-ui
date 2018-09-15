@@ -111,7 +111,10 @@ class Attachment {
 			attachments: parsedAttachments
 		})
 		if (position) this.setPosition(position)
-		if (this.prevAttachmentIndex !== index || isEqual(this.prevMirror, mirror)) {
+		if (
+			this.prevAttachmentIndex !== index ||
+			!isEqual(this.prevMirror, mirror)
+		) {
 			if (onChangeAttachment) onChangeAttachment(index, mirror)
 			this.prevAttachmentIndex = index
 			this.prevMirror = mirror
@@ -120,9 +123,8 @@ class Attachment {
 
 	setPosition(position) {
 		const { left, top } = position
-		const { element } = this.options
+		const { element, useTranslate } = this.options
 
-		const useTranslate = true
 		if (useTranslate) {
 			element.style.transform = `translate(${left}px, ${top}px)`
 		} else {

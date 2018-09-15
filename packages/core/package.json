@@ -1,17 +1,22 @@
 {
-  "name": "zz-core",
+  "name": "@clear-ui/core",
   "version": "0.0.1",
   "description": "",
   "main": "lib/index.js",
   "dependencies": {
+    "animated": "^0.2.2",
+    "floral": "^0.2.2",
     "lodash.isequal": "^4.5.0",
-    "lodash.pick": "^4.4.0"
+    "lodash.pick": "^4.4.0",
+    "prop-types": "^15.6.2",
+    "react-spring": "^5.6.15"
   },
   "devDependencies": {
     "react-test-renderer": "^16.4.2"
   },
   "scripts": {
     "build": "gnoll lib --source-maps",
+    "watch": "gnoll lib --watch --source-maps",
     "test": "../../node_modules/.bin/karma start"
   },
   "author": "sunflowerdeath",
