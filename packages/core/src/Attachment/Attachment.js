@@ -82,7 +82,7 @@ class Attachment {
 	/** TODO */
 	updateOptions(options) {
 		this.options = this.processOptions(options)
-		this.updatePosition()
+		this.updatePosition(true)
 	}
 
 	parseAttachments(attachment) {
@@ -92,7 +92,7 @@ class Attachment {
 	}
 
 	/** @public TODO */
-	updatePosition() {
+	updatePosition(callOnChange) {
 		const {
 			parsedAttachments,
 			constrain,
@@ -113,7 +113,8 @@ class Attachment {
 		if (position) this.setPosition(position)
 		if (
 			this.prevAttachmentIndex !== index ||
-			!isEqual(this.prevMirror, mirror)
+			!isEqual(this.prevMirror, mirror) ||
+			callOnChange
 		) {
 			if (onChangeAttachment) onChangeAttachment(index, mirror)
 			this.prevAttachmentIndex = index

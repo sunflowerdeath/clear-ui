@@ -1,8 +1,9 @@
 ---
 imports:
     Tooltip: '@clear-ui/tooltip'
-    styles: '../dropdownStyles'
     '{ slide, scale }': '@clear-ui/core/lib/animations'
+    styles: '../dropdownStyles'
+    TooltipArrowExample: '../examples/TooltipArrowExample'
 ---
 
 # Tooltip
@@ -27,12 +28,12 @@ imports:
 </Tooltip>
 ```
 
-## Open and close timeout
+## Show and hide delay
 
-```
-<Tooltip content="Tooltip content" openTimeout={250}>
+```@example
+<Tooltip content="Tooltip content" showDelay={500} style={styles.dropdown}>
     {({ show, hide, isOpen }) => (
-        <div class='button' onClick={() => isOpen ? hide() : show()}>
+        <div style={styles.button} onMouseEnter={show} onMouseLeave={hide}>
             Shows with delay
         </div>
     )}
@@ -44,9 +45,10 @@ but after some timeout, and when hovering the tooltip, closing timer is disabled
 It can be useful in situations when interaction with the tooltip is needed,
 for example to copy the text or click the link inside.
 
-```
+```@example
 <Tooltip
-    hideTimeout={500}
+    hideDelay={500}
+    style={styles.dropdown}
     content={
         <div>
             Copy text{' '}
@@ -55,9 +57,15 @@ for example to copy the text or click the link inside.
     }
 >
     {({ show, hide, isOpen }) => (
-        <div class='button' onClick={() => isOpen ? hide() : show()}>
+        <div style={styles.button} onMouseEnter={show} onMouseLeave={hide}>
             Hide with delay
         </div>
     )}
 </Tooltip>
+```
+
+## Arrow
+
+```@render
+<TooltipArrowExample />
 ```

@@ -73,7 +73,7 @@ class Tooltip extends Component {
 			.isRequired,
 
 		/** Content of the tooltip. */
-		content: PropTypes.node.isRequired,
+		content: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
 
 		/**
 		 * Properties that allow you to control tooltip's open state from the
@@ -96,9 +96,6 @@ class Tooltip extends Component {
 		/** Alignment of the tooltip relative to the element's side. */
 		align: PropTypes.oneOf(['begin', 'center', 'end']),
 
-		/** TODO */
-		arrow: PropTypes.bool,
-
 		/** Distance between the tooltip and the element, in px. */
 		offset: PropTypes.number,
 
@@ -112,10 +109,10 @@ class Tooltip extends Component {
 		]),
 
 		/** Time before the tooltip starts opening after it is requested, in ms. */
-		openTimeout: PropTypes.number,
+		showDelay: PropTypes.number,
 
 		/** Time before the tooltip starts closing after it is requested, in ms. */
-		closeTimeout: PropTypes.number
+		hideDelay: PropTypes.number
 	}
 
 	static defaultProps = {
@@ -123,8 +120,8 @@ class Tooltip extends Component {
 		align: 'center',
 		offset: 10,
 		animation: DEFAULT_ANIMATION,
-		openTimeout: 0,
-		closeTimeout: 0
+		showDelay: 0,
+		hideDelay: 0
 	}
 
 	constructor(props) {
@@ -132,6 +129,8 @@ class Tooltip extends Component {
 		this.state = { isAttached: props.isOpen }
 		this.openValue = new AnimatedValue(props.isOpen ? 1 : 0)
 		this.onChangeAttachment = this.onChangeAttachment.bind(this)
+		this.show = this.show.bind(this)
+		this.hide = this.hide.bind(this)
 	}
 
 	componentDidUpdate(prevProps) {
@@ -151,7 +150,10 @@ class Tooltip extends Component {
 		}
 	}
 
-	onChangeAttachment(index, mirror) {}
+	onChangeAttachment(index) {
+		const side = this.props.sides[index]
+		if (this.state.side !== side) this.setState({ side })
+	}
 
 	getStyle() {
 		const { animation } = this.props
@@ -167,19 +169,43 @@ class Tooltip extends Component {
 			: computedStyles.root
 	}
 
+	show() {
+		const { showDelay, onShow } = this.props
+		if (this.timeout) clearTimeout(this.timeout)
+		if (showDelay > 0) this.timeout = setTimeout(onShow, showDelay)
+		else onShow()
+	}
+
+	hide() {
+		const { hideDelay, onHide } = this.props
+		if (this.timeout) clearTimeout(this.timeout)
+		if (hideDelay > 0) this.timeout = setTimeout(onHide, hideDelay)
+		else onHide()
+	}
+
 	renderTarget() {
-		const { children, isOpen, onShow, onHide } = this.props
+		const { children, isOpen } = this.props
 		return typeof children === 'function'
-			? children({ isOpen, show: onShow, hide: onHide })
+			? children({ isOpen, show: this.show, hide: this.hide })
 			: children
 	}
 
 	renderElement(ref) {
-		const { content } = this.props
+		const { content, hideDelay } = this.props
+		const { side } = this.state
 		return (
 			<Layer isActive>
-				<animated.div style={this.getStyle()} ref={ref}>
-					{content}
+				<animated.div
+					style={this.getStyle()}
+					ref={ref}
+					onMouseEnter={() => {
+						if (this.timeout) clearTimeout(this.timeout)
+					}}
+					onMouseLeave={() => {
+						if (hideDelay > 0) this.hide()
+					}}
+				>
+					{typeof content === 'function' ? content({ side }) : content}
 				</animated.div>
 			</Layer>
 		)
