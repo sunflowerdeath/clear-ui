@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import floral from 'floral'
-import { AnimatedValue, controller, animated, SpringAnimation } from 'react-spring'
+import { AnimatedValue, animated, SpringAnimation } from 'react-spring'
 
-import withController from '../utils/withController'
-import animate from '../utils/animate'
-import { fade } from '../utils/animations'
-import { Layer } from '../Layers'
-import Attachment from '../Attachment/AttachmentComponent'
+import { Layer, Attachment } from '@clear-ui/core'
+import withController from '@clear-ui/core/lib/utils/withController'
+import { animate, fade } from '@clear-ui/core/lib/animations'
 
 const OPPOSITE_SIDES = {
 	top: 'bottom',
@@ -17,9 +15,9 @@ const OPPOSITE_SIDES = {
 }
 
 const POSITION_POINTS = {
-	begin: {horiz: 'left', vert: 'top'},
-	center: {horiz: 'center', vert: 'middle'},
-	end: {horiz: 'right', vert: 'bottom'}
+	begin: { horiz: 'left', vert: 'top' },
+	center: { horiz: 'center', vert: 'center' },
+	end: { horiz: 'right', vert: 'bottom' }
 }
 
 const createAttachmentConfig = (side, align, offset) => {
@@ -30,28 +28,34 @@ const createAttachmentConfig = (side, align, offset) => {
 	 * 2. point on second axis is defined by `align`
 	 *     begin/center/end of the axis on both element's and target's points
 	 */
-	const mainAxis = (side === 'top' || side === 'bottom') ? 'vert' : 'horiz'
-	const secondAxis = (mainAxis === 'vert') ? 'horiz' : 'vert'
+	const mainAxis = side === 'top' || side === 'bottom' ? 'vert' : 'horiz'
+	const secondAxis = mainAxis === 'vert' ? 'horiz' : 'vert'
 
 	const mainAxisPoint = side
 	const mainAxisOppositePoint = OPPOSITE_SIDES[side]
 	const secondAxisPoint = POSITION_POINTS[align][secondAxis]
 
 	if (mainAxis === 'vert') {
-		const signedOffset = (side === 'bottom') ? offset : -offset
+		const signedOffset = side === 'bottom' ? offset : -offset
 		return {
 			element: `${secondAxisPoint} ${mainAxisOppositePoint}`,
 			target: `${secondAxisPoint} ${mainAxisPoint}`,
 			offset: `0 ${signedOffset}`
 		}
 	} else {
-		const signedOffset = (side === 'right') ? offset : -offset
+		const signedOffset = side === 'right' ? offset : -offset
 		return {
 			element: `${mainAxisOppositePoint} ${secondAxisPoint}`,
 			target: `${mainAxisPoint} ${secondAxisPoint}`,
 			offset: `${signedOffset} 0`
 		}
 	}
+}
+
+const DEFAULT_ANIMATION = {
+	style: fade,
+	config: { tension: 280, friction: 30 },
+	impl: SpringAnimation
 }
 
 const styles = {
@@ -65,23 +69,24 @@ class Tooltip extends Component {
 
 	static propTypes = {
 		/** Element to which the tooltip is attached. */
-		children: PropTypes.element.isRequired,
+		children: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
+			.isRequired,
 
 		/** Content of the tooltip. */
-		tooltip: PropTypes.node.isRequired,
+		content: PropTypes.node.isRequired,
 
 		/**
-		 * Properties that allow you to control tooltip's open state from the 
-		 * parent component. If they are not present, tooltip will manage 
+		 * Properties that allow you to control tooltip's open state from the
+		 * parent component. If they are not present, tooltip will manage
 		 * opened state by itself.
 		 */
 		isOpen: PropTypes.bool,
 
 		/** Function that is called when tooltip requests to open. */
-		onOpen: PropTypes.func,
+		onShow: PropTypes.func,
 
 		/** Function that is called when tooltip requests to close. */
-		onClose: PropTypes.func,
+		onHide: PropTypes.func,
 
 		/** List of sides where tooltip can be shown in the order of priority. */
 		sides: PropTypes.arrayOf(
@@ -97,9 +102,14 @@ class Tooltip extends Component {
 		/** Distance between the tooltip and the element, in px. */
 		offset: PropTypes.number,
 
-		animation: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
-		animationConfig: PropTypes.object,
-		animationImpl: PropTypes.func,
+		animation: PropTypes.oneOfType([
+			PropTypes.shape({
+				style: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+				config: PropTypes.object,
+				impl: PropTypes.func
+			}),
+			PropTypes.bool
+		]),
 
 		/** Time before the tooltip starts opening after it is requested, in ms. */
 		openTimeout: PropTypes.number,
@@ -112,9 +122,7 @@ class Tooltip extends Component {
 		sides: ['top', 'right', 'bottom', 'left'],
 		align: 'center',
 		offset: 10,
-		animation: fade,
-		animationConfig: { tension: 210, friction: 20 },
-		animationImpl: SpringAnimation,
+		animation: DEFAULT_ANIMATION,
 		openTimeout: 0,
 		closeTimeout: 0
 	}
@@ -123,33 +131,72 @@ class Tooltip extends Component {
 		super()
 		this.state = { isAttached: props.isOpen }
 		this.openValue = new AnimatedValue(props.isOpen ? 1 : 0)
+		this.onChangeAttachment = this.onChangeAttachment.bind(this)
 	}
 
-	renderTarget(ref) {
+	componentDidUpdate(prevProps) {
+		const { isOpen, animation } = this.props
+		if (animation && isOpen !== prevProps.isOpen) {
+			this.setState({ isAttached: true })
+			const { config, impl } = { ...DEFAULT_ANIMATION, ...animation }
+			animate({
+				value: this.openValue,
+				to: isOpen ? 1 : 0,
+				config,
+				impl,
+				callback: ({ finished }) => {
+					if (finished) this.setState({ isAttached: isOpen })
+				}
+			})
+		}
+	}
+
+	onChangeAttachment(index, mirror) {}
+
+	getStyle() {
+		const { animation } = this.props
+		const { computedStyles, vertDirection } = this.state
+		return animation
+			? {
+					...computedStyles.root,
+					...(animation.style || DEFAULT_ANIMATION.style)({
+						value: this.openValue,
+						direction: vertDirection
+					})
+			  }
+			: computedStyles.root
+	}
+
+	renderTarget() {
 		const { children, isOpen, onShow, onHide } = this.props
-		return typeof children === 'function
-			? children({ isOpen, onShow, onHide })
+		return typeof children === 'function'
+			? children({ isOpen, show: onShow, hide: onHide })
 			: children
 	}
 
 	renderElement(ref) {
 		const { content } = this.props
 		return (
-			<Layer isActive={true}>
-				<div style={computedStyles.root}>{content}</div>
+			<Layer isActive>
+				<animated.div style={this.getStyle()} ref={ref}>
+					{content}
+				</animated.div>
 			</Layer>
 		)
 	}
 
 	render() {
-		const { isOpen, animation } = this.props
+		const { isOpen, animation, sides, align, offset } = this.props
 		const { isAttached } = this.state
+		const attachment = sides.map(side =>
+			createAttachmentConfig(side, align, offset)
+		)
 		return (
 			<Attachment
 				element={ref => this.renderElement(ref)}
 				isActive={animation ? isAttached : isOpen}
-				onChangeAttachment={this.onChangeAttachment.bind(this)}
-				{...config}
+				onChangeAttachment={this.onChangeAttachment}
+				attachment={attachment}
 			>
 				{this.renderTarget()}
 			</Attachment>
@@ -157,13 +204,15 @@ class Tooltip extends Component {
 	}
 }
 
-const createController = Tooltip => {
+const createController = UncontrolledTooltip => {
 	const TooltipWithController = withController('isOpen', {
-		onOpen: updateValue => () => updateValue(true),
-		onClose: updateValue => () => updateValue(false)
-	})(Tooltip)
-	TooltipWithController.extendStyles = styles =>
-		createController(TooltipWithController.innerComponent.extendStyles(styles))
+		onShow: updateValue => () => updateValue(true),
+		onHide: updateValue => () => updateValue(false)
+	})(UncontrolledTooltip)
+	TooltipWithController.extendStyles = newStyles =>
+		createController(
+			TooltipWithController.innerComponent.extendStyles(newStyles)
+		)
 	return TooltipWithController
 }
 

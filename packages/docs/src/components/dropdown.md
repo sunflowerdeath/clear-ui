@@ -68,8 +68,8 @@ You can change these sides to opposite.
     trigger={<div style={styles.button}>Slide</div>}
     style={styles.dropdown}
     animation={{
-		style: options => slide({ distance: 35, ...options })
-	}}
+        style: options => slide({ distance: 35, ...options })
+    }}
 >
     <div style={styles.item}>Dropdown content</div>
 </Dropdown>
@@ -78,8 +78,8 @@ You can change these sides to opposite.
     trigger={<div style={styles.button}>Scale</div>}
     style={styles.dropdown}
     animation={{
-		style: options => scale({ initialScale: { x: 0.75, y: 0.5 }, ...options })
-	}}
+        style: options => scale({ initialScale: { x: 0.75, y: 0.5 }, ...options })
+    }}
 >
     <div style={styles.item}>Dropdown content</div>
 </Dropdown>
@@ -88,9 +88,9 @@ You can change these sides to opposite.
     trigger={<div style={styles.button}>Faster spring</div>}
     style={styles.dropdown}
     animation={{
-		style: options => slide({ distance: 35, ...options }),
-		config: { tension: 560, friction: 35 }
-	}}
+        style: options => slide({ distance: 35, ...options }),
+        config: { tension: 560, friction: 35 }
+    }}
 >
     <div style={styles.item}>Dropdown content</div>
 </Dropdown>
@@ -99,10 +99,10 @@ You can change these sides to opposite.
     trigger={<div style={styles.button}>Timing</div>}
     style={styles.dropdown}
     animation={{
-		style: options => slide({ distance: 35, ...options }),
-		impl: TimingAnimation,
-		config: { duration: 500 }
-	}}
+        style: options => slide({ distance: 35, ...options }),
+        impl: TimingAnimation,
+        config: { duration: 500 }
+    }}
 >
     <div style={styles.item}>Dropdown content</div>
 </Dropdown>

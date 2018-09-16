@@ -1,22 +1,29 @@
+---
+imports:
+    Tooltip: '@clear-ui/tooltip'
+    styles: '../dropdownStyles'
+    '{ slide, scale }': '@clear-ui/core/lib/animations'
+---
+
 # Tooltip
 
 ## Example
 
-```
-<Tooltip content="Tooltip content">
-	{({ show, hide }) => (
-		<div class='button' onMouseEnter={show} onMouseLeave={hide}>
-			Show on hover
-		</div>
-	)}
+```@example
+<Tooltip content="Tooltip content" style={styles.dropdown}>
+    {({ show, hide }) => (
+        <div style={styles.button} onMouseEnter={show} onMouseLeave={hide}>
+            Show on hover
+        </div>
+    )}
 </Tooltip>
 
-<Tooltip content="Tooltip content" >
-	{({ show, hide, isOpen }) => (
-		<div class='button' onClick={() => isOpen ? hide() : show()}>
-			Show/hide on click
-		</div>
-	)}
+<Tooltip content="Tooltip content" style={styles.dropdown}>
+    {({ show, hide, isOpen }) => (
+        <div style={styles.button} onClick={() => isOpen ? hide() : show()}>
+            Show/hide on click
+        </div>
+    )}
 </Tooltip>
 ```
 
@@ -24,11 +31,11 @@
 
 ```
 <Tooltip content="Tooltip content" openTimeout={250}>
-	{({ show, hide, isOpen }) => (
-		<div class='button' onClick={() => isOpen ? hide() : show()}>
-			Shows with delay
-		</div>
-	)}
+    {({ show, hide, isOpen }) => (
+        <div class='button' onClick={() => isOpen ? hide() : show()}>
+            Shows with delay
+        </div>
+    )}
 </Tooltip>
 ```
 
@@ -39,18 +46,18 @@ for example to copy the text or click the link inside.
 
 ```
 <Tooltip
-	hideTimeout={500}
-	content={
-		<div>
-			Copy text{' '}
-			<a href="http://google.com" target="_blank">Link</a>
-		</div>
-	}
+    hideTimeout={500}
+    content={
+        <div>
+            Copy text{' '}
+            <a href="http://google.com" target="_blank">Link</a>
+        </div>
+    }
 >
-	{({ show, hide, isOpen }) => (
-		<div class='button' onClick={() => isOpen ? hide() : show()}>
-			Hide with delay
-		</div>
-	)}
+    {({ show, hide, isOpen }) => (
+        <div class='button' onClick={() => isOpen ? hide() : show()}>
+            Hide with delay
+        </div>
+    )}
 </Tooltip>
 ```

@@ -13,6 +13,10 @@
     "prop-types": "^15.6.2",
     "react-spring": "^5.7.2"
   },
+  "peerDependencies": {
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sunflowerdeath/clear-ui.git"

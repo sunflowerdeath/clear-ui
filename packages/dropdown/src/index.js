@@ -15,6 +15,12 @@ const OPPOSITE_SIDES = {
 	right: 'left'
 }
 
+const DEFAULT_ANIMATION = {
+	style: fade,
+	config: { tension: 280, friction: 30 },
+	impl: SpringAnimation
+}
+
 const styles = ({ isOpen }) => ({
 	root: {
 		position: 'absolute',
@@ -22,12 +28,6 @@ const styles = ({ isOpen }) => ({
 		pointerEvents: isOpen ? 'auto' : 'none'
 	}
 })
-
-const DEFAULT_ANIMATION = {
-	style: fade,
-	config: { tension: 280, friction: 30 },
-	impl: SpringAnimation
-}
 
 class Dropdown extends Component {
 	static propTypes = {
@@ -42,8 +42,8 @@ class Dropdown extends Component {
 		isOpen: PropTypes.bool,
 
 		/**
-		 * Functions that is called when dropdown requests to change its opened state,
-		 * when it is controlled, i.e. prop `open` is defined.
+		 * Functions that is called when dropdown requests to change its opened
+		 * state, when it is controlled, i.e. prop `open` is defined.
 		 * `(isOpen: bool) => void`
 		 */
 		onOpen: PropTypes.func,
@@ -68,7 +68,11 @@ class Dropdown extends Component {
 		vertSide: PropTypes.oneOf(['top', 'bottom']),
 
 		/** Distance between the trigger and the dropdown. */
-		offset: PropTypes.number,
+		vertOffset: PropTypes.number,
+
+		horizOffset: PropTypes.number,
+
+		constrain: PropTypes.bool,
 
 		viewportPadding: PropTypes.number,
 
@@ -142,6 +146,20 @@ class Dropdown extends Component {
 		}
 	}
 
+	getStyle() {
+		const { animation } = this.props
+		const { computedStyles, vertDirection } = this.state
+		return animation
+			? {
+					...computedStyles.root,
+					...(animation.style || DEFAULT_ANIMATION.style)({
+						value: this.openValue,
+						direction: vertDirection
+					})
+			  }
+			: computedStyles.root
+	}
+
 	setSizes(dropdownRef) {
 		const { maxHeight, viewportPadding } = this.props
 		const triggerElem = ReactDOM.findDOMNode(this.triggerRef)
@@ -160,15 +178,6 @@ class Dropdown extends Component {
 		const overlay = isOpen && (
 			<Overlay closeOnEsc closeOnClick onClose={onClose} />
 		)
-		const style = animation
-			? {
-					...computedStyles.root,
-					...(animation.style || DEFAULT_ANIMATION.style)({
-						value: this.openValue,
-						direction: vertDirection
-					})
-			  }
-			: computedStyles.root
 		return (
 			<Layer isActive>
 				{overlay}
@@ -177,7 +186,7 @@ class Dropdown extends Component {
 						if (dropdownRef) this.setSizes(dropdownRef)
 						ref(dropdownRef)
 					}}
-					style={style}
+					style={this.getStyle()}
 				>
 					{children}
 				</animated.div>
@@ -216,11 +225,11 @@ class Dropdown extends Component {
 	}
 }
 
-const createController = Dropdown => {
+const createController = UncontrolledDropdown => {
 	const DropdownWithController = withController('isOpen', {
 		onOpen: updateValue => () => updateValue(true),
 		onClose: updateValue => () => updateValue(false)
-	})(Dropdown)
+	})(UncontrolledDropdown)
 	DropdownWithController.extendStyles = newStyles =>
 		createController(
 			DropdownWithController.innerComponent.extendStyles(newStyles)

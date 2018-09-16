@@ -12,6 +12,7 @@
   "dependencies": {
     "@clear-ui/core": "0.0.1",
     "@clear-ui/dropdown": "0.0.1",
+    "@clear-ui/tooltip": "0.0.1",
     "floral": "^0.2.2",
     "minibook": "^0.5.3",
     "prop-types": "^15.6.2",

@@ -1,6 +1,7 @@
 import React from 'react'
 
 import DropdownStory from './dropdown.md'
+import TooltipStory from './tooltip.md'
 
 const componentsSection = {
 	name: 'Components',
@@ -11,7 +12,7 @@ const componentsSection = {
 		},
 		tooltip: {
 			name: 'Tooltip',
-			render: () => <div>TODO</div>
+			markdown: TooltipStory
 		},
 		modal: {
 			name: 'Modal',
