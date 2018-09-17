@@ -115,7 +115,7 @@ class Dropdown extends Component {
 		}
 	}
 
-	onChangeAttachment(index, mirror) {
+	onChangeAttachment(key, mirror) {
 		const { vertSide, expandSide } = this.props
 		this.setState({
 			vertDirection: mirror.vert ? OPPOSITE_SIDES[vertSide] : vertSide,
@@ -135,10 +135,12 @@ class Dropdown extends Component {
 		const oppositeSide = OPPOSITE_SIDES[expandSide]
 		const oppositeVertSide = OPPOSITE_SIDES[vertSide]
 		return {
-			attachment: {
-				target: `${oppositeSide} ${vertSide}`,
-				element: `${oppositeSide} ${oppositeVertSide}`,
-				offset: `${horizOffset}px ${vertOffset}px`
+			attachments: {
+				default: {
+					target: `${oppositeSide} ${vertSide}`,
+					element: `${oppositeSide} ${oppositeVertSide}`,
+					offset: `${horizOffset}px ${vertOffset}px`
+				}
 			},
 			mirrorAttachment: 'all',
 			constrain,

@@ -22,7 +22,7 @@ class Attachment extends Component {
 		isActive: PropTypes.bool,
 
 		/**
-		 * Configuration of attachment points or a list of possible configs.
+		 * Object woith possible configurations of attachment points.
 		 * Component will choose an attachment that allows element to fit to
 		 * the viewport.
 		 *
@@ -41,8 +41,7 @@ class Attachment extends Component {
 		 * - **offset** `string` _optional_ – Offset of the element.
 		 *     Format is same as for element and target, but without special values.
 		 */
-		attachment: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
-			.isRequired,
+		attachments: PropTypes.object.isRequired,
 
 		/**
 		 * Axis of attachment that can be mirrored to fit element to the viewport.
@@ -64,8 +63,8 @@ class Attachment extends Component {
 		 * Function that is called when component chooses another attachment or
 		 * mirrors it to fit attached element on the screen.
 		 *
-		 * `(index: number, mirrored: object) => void`
-		 * - **index** – Index of the chosen attachment config.
+		 * `(key: number, mirrored: object) => void`
+		 * - **key** – Key of the chosen attachment config.
 		 * - **mirror** – Object with keys `horiz` and `vert` that are `true` when
 		 *      attachment is mirrored on that axis.
 		 */
@@ -83,7 +82,7 @@ class Attachment extends Component {
 	setAttachment() {
 		const options = pick(
 			this.props,
-			'attachment',
+			'attachments',
 			'viewportPadding',
 			'constrain',
 			'mirrorAttachment',

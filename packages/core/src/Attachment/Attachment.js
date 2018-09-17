@@ -26,7 +26,7 @@ import getAttachPosition from './getAttachPosition'
  * @type AttachmentOptions
  * @param {Element} element - Attached element
  * @param {Element} target - Attachment target
- * @param {AttachmentConfig|Array<AttachmentConfig>} attachment -
+ * @param {AttachmentConfig|Object<string, AttachmentConfig>} attachment -
  *     Configuration of attachment points or a list of possible configs.
  *     Component will choose an attachment that allows element to fit in
  *     the viewport.
@@ -58,18 +58,12 @@ class Attachment {
 	}
 
 	processOptions(options) {
-		const { element, target, attachment, ...rest } = options
-
-		let parsedAttachments
-		if (attachment) {
-			if (Array.isArray(attachment) && !attachment.length) {
-				throw new Error('"options.attachment" must not be empty')
-			}
-			parsedAttachments = this.parseAttachments(attachment)
-		} else {
-			throw new Error('"options.attachment" is required')
-		}
-
+		const { element, target, attachments, ...rest } = options
+		if (!attachments) throw new Error('"options.attachments" is required')
+		const parsedAttachments = {}
+		Object.entries(attachments).forEach(([key, value]) => {
+			parsedAttachments[key] = parseAttachmentConfig(value)
+		})
 		return {
 			...DEFAULT_OPTIONS,
 			element,
@@ -82,17 +76,11 @@ class Attachment {
 	/** TODO */
 	updateOptions(options) {
 		this.options = this.processOptions(options)
-		this.updatePosition(true)
-	}
-
-	parseAttachments(attachment) {
-		return Array.isArray(attachment)
-			? attachment.map(parseAttachmentConfig)
-			: [parseAttachmentConfig(attachment)]
+		this.updatePosition()
 	}
 
 	/** @public TODO */
-	updatePosition(callOnChange) {
+	updatePosition() {
 		const {
 			parsedAttachments,
 			constrain,
@@ -103,7 +91,7 @@ class Attachment {
 			onChangeAttachment
 		} = this.options
 		const measurements = readMeasurements(element, target)
-		const [position, index, mirror] = getAttachPosition({
+		const [position, key, mirror] = getAttachPosition({
 			measurements,
 			constrain,
 			viewportPadding,
@@ -111,13 +99,9 @@ class Attachment {
 			attachments: parsedAttachments
 		})
 		if (position) this.setPosition(position)
-		if (
-			this.prevAttachmentIndex !== index ||
-			!isEqual(this.prevMirror, mirror) ||
-			callOnChange
-		) {
-			if (onChangeAttachment) onChangeAttachment(index, mirror)
-			this.prevAttachmentIndex = index
+		if (this.prevAttachmentKey !== key || !isEqual(this.prevMirror, mirror)) {
+			if (onChangeAttachment) onChangeAttachment(key, mirror)
+			this.prevAttachmentKey = key
 			this.prevMirror = mirror
 		}
 	}

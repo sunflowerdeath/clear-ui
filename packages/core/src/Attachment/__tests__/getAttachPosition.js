@@ -77,7 +77,7 @@ describe('attachment/getAttachPosition', () => {
 	it('calculates attach position', () => {
 		const res = getAttachPosition({
 			measurements: MEASUREMENTS,
-			attachments: [BOTTOM_ATTACHMENT],
+			attachments: { bottom: BOTTOM_ATTACHMENT },
 			constrain: false,
 			viewportPadding: 0,
 			mirrorAttachment: 'none'
@@ -88,7 +88,7 @@ describe('attachment/getAttachPosition', () => {
 	it('chooses attach position that fits', () => {
 		const res = getAttachPosition({
 			measurements: MEASUREMENTS,
-			attachments: [TOP_ATTACHMENT, BOTTOM_ATTACHMENT],
+			attachments: { top: TOP_ATTACHMENT, bottom: BOTTOM_ATTACHMENT },
 			constrain: false,
 			viewportPadding: 0,
 			mirrorAttachment: 'none'
@@ -99,7 +99,7 @@ describe('attachment/getAttachPosition', () => {
 	it("mirrors attach position when is doesn't fit", () => {
 		const res = getAttachPosition({
 			measurements: MEASUREMENTS,
-			attachments: [TOP_ATTACHMENT],
+			attachments: { top: TOP_ATTACHMENT },
 			constrain: false,
 			viewportPadding: 0,
 			mirrorAttachment: 'all'

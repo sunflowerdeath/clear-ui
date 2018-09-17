@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom'
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import Draggable from 'react-draggable'
 
 import { Attachment } from '@clear-ui/core'
@@ -68,7 +68,7 @@ const styles = {
 	}
 }
 
-class Demo extends Component {
+class AttachmentExample extends Component {
 	state = {
 		top: 100,
 		left: 100,
@@ -210,7 +210,7 @@ class Demo extends Component {
 							type="checkbox"
 							style={{ verticalAlign: 'middle' }}
 							value={constrain}
-							onChange={e => this.setState({ constrain: !constrain })}
+							onChange={() => this.setState({ constrain: !constrain })}
 						/>
 						<span style={styles.label}>constrain</span>
 					</div>
@@ -265,12 +265,14 @@ class Demo extends Component {
 			<div style={styles.root}>
 				{this.renderMenu()}
 				<Attachment
-					isActive={true}
+					isActive
 					element={this.renderElement.bind(this)}
-					attachment={{
-						element: `${elemHoriz} ${elemVert}`,
-						target: `${targetHoriz} ${targetVert}`,
-						offset: `${offsetHoriz}px ${offsetVert}px`
+					attachments={{
+						default: {
+							element: `${elemHoriz} ${elemVert}`,
+							target: `${targetHoriz} ${targetVert}`,
+							offset: `${offsetHoriz}px ${offsetVert}px`
+						}
 					}}
 					mirrorAttachment={mirror}
 					constrain={constrain}
@@ -283,4 +285,4 @@ class Demo extends Component {
 	}
 }
 
-ReactDOM.render(<Demo />, document.querySelector('#root'))
+ReactDOM.render(<AttachmentExample />, document.querySelector('#root'))

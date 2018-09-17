@@ -33,7 +33,7 @@ const checkFitViewport = (pos, m /* measurements */, padding) =>
 	pos.top + m.element.height <= m.bounds.bottom - padding
 
 const constrainPosition = (pos, m /* measurements */, padding) => {
-	let res = { ...pos }
+	const res = { ...pos }
 	if (res.left < m.bounds.left + padding) res.left = m.bounds.left + padding
 	if (res.top < m.bounds.top + padding) res.top = m.bounds.top + padding
 	if (res.left + m.element.width > m.bounds.right - padding) {
@@ -73,12 +73,12 @@ const getAttachPosition = ({
 	mirrorAttachment
 }) => {
 	const mirrorsList = getMirrorsList(mirrorAttachment)
-	let pos, index, mirror
+	let pos, key, mirror
 	/* eslint-disable no-restricted-syntax, no-labels */
-	outer: for (index in attachments) {
-		let att = attachments[index]
-		for (let j in mirrorsList) {
-			mirror = mirrorsList[j]
+	outer: for (key in attachments) {
+		const att = attachments[key]
+		for (const i in mirrorsList) {
+			mirror = mirrorsList[i]
 			pos = calcPosition(measurements, att, mirror)
 			if (checkFitViewport(pos, measurements, viewportPadding)) break outer
 		}
@@ -87,7 +87,7 @@ const getAttachPosition = ({
 	if (constrain && pos) {
 		pos = constrainPosition(pos, measurements, viewportPadding)
 	}
-	return [pos, index, mirror]
+	return [pos, key, mirror]
 }
 
 export default getAttachPosition

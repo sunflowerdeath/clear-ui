@@ -73,7 +73,7 @@ describe('attachment', () => {
 		attachment = new Attachment({
 			element: ELEMENT,
 			target: TARGET,
-			attachment: [TOP_ATTACHMENT, BOTTOM_ATTACHMENT]
+			attachments: { top: TOP_ATTACHMENT, bottom: BOTTOM_ATTACHMENT }
 		})
 
 		const elemPos = getElemPosition(ELEMENT)
@@ -86,7 +86,7 @@ describe('attachment', () => {
 		attachment = new Attachment({
 			element: ELEMENT,
 			target: TARGET,
-			attachment: TOP_ATTACHMENT,
+			attachments: { top: TOP_ATTACHMENT },
 			mirrorAttachment: 'vert'
 		})
 
@@ -101,7 +101,7 @@ describe('attachment', () => {
 		attachment = new Attachment({
 			element: ELEMENT,
 			target: TARGET,
-			attachment: TOP_ATTACHMENT,
+			attachments: { top: TOP_ATTACHMENT },
 			constrain: true,
 			viewportPadding: VIEWPORT_PADDING
 		})
@@ -114,7 +114,7 @@ describe('attachment', () => {
 		attachment = new Attachment({
 			element: ELEMENT,
 			target: TARGET,
-			attachment: [TOP_ATTACHMENT, BOTTOM_ATTACHMENT]
+			attachments: { top: TOP_ATTACHMENT, bottom: BOTTOM_ATTACHMENT }
 		})
 		assert.equal(getElemPosition(ELEMENT).left, 0)
 
@@ -128,7 +128,7 @@ describe('attachment', () => {
 		attachment = new Attachment({
 			element: ELEMENT,
 			target: TARGET,
-			attachment: [TOP_ATTACHMENT, BOTTOM_ATTACHMENT]
+			attachments: { top: TOP_ATTACHMENT, bottom: BOTTOM_ATTACHMENT }
 		})
 		assert.equal(getElemPosition(ELEMENT).left, 0)
 

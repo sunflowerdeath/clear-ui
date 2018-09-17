@@ -150,9 +150,8 @@ class Tooltip extends Component {
 		}
 	}
 
-	onChangeAttachment(index) {
-		const side = this.props.sides[index]
-		if (this.state.side !== side) this.setState({ side })
+	onChangeAttachment(key) {
+		if (this.state.side !== key) this.setState({ side: key })
 	}
 
 	getStyle() {
@@ -214,15 +213,16 @@ class Tooltip extends Component {
 	render() {
 		const { isOpen, animation, sides, align, offset } = this.props
 		const { isAttached } = this.state
-		const attachment = sides.map(side =>
-			createAttachmentConfig(side, align, offset)
-		)
+		const attachments = {}
+		sides.forEach(side => {
+			attachments[side] = createAttachmentConfig(side, align, offset)
+		})
 		return (
 			<Attachment
 				element={ref => this.renderElement(ref)}
 				isActive={animation ? isAttached : isOpen}
 				onChangeAttachment={this.onChangeAttachment}
-				attachment={attachment}
+				attachments={attachments}
 			>
 				{this.renderTarget()}
 			</Attachment>
